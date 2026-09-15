@@ -183,7 +183,11 @@ posts
       const bluesky = await apiListAll<{ id: string }>('/api/cli/v1/accounts', { platform: 'bluesky' });
       const ids = (opts.account as string[]).filter((id) => bluesky.some((a) => a.id === id));
       if (ids.length === 0) throw new Error('--alt and --label apply to Bluesky accounts, and no --account is on Bluesky.');
-      const settings = { altText: opts.alt ?? [], labels: opts.label ?? [] };
+      // Alt text is one entry per file, so a label on its own sends an empty
+      // description for each of the post's files rather than a wrong count.
+      const altText: string[] =
+        opts.alt ?? (await api<{ mediaUrls: string[] }>(`/api/cli/v1/posts/${postId}`)).mediaUrls.map(() => '');
+      const settings = { altText, labels: opts.label ?? [] };
       body.blueskySettings = Object.fromEntries(ids.map((id) => [id, settings]));
     }
     const res = await api(`/api/cli/v1/posts/${postId}/schedule`, { method: 'POST', body });

@@ -87,7 +87,7 @@ Every list command supports cursor pagination (`--limit`, `--cursor`, `--all`), 
 juzpost posts list --status scheduled --json | jq '.data[].title'
 ```
 
-Bluesky alt text is one description per file, in the order the post's files are attached (`""` leaves a file undescribed). Content warnings are `sexual` (Suggestive), `nudity` or `porn` (Adult), plus `graphic-media`, and only apply to posts with images or video:
+Bluesky alt text is one description per file, in the order the post's files are attached (`""` leaves a file undescribed). Content warnings are `sexual` (Suggestive), `nudity` or `porn` (Adult), plus `graphic-media`, and only apply to posts with images or video. `--label` works without `--alt`; every file then goes out undescribed:
 
 ```bash
 juzpost posts schedule <id> --account <bluesky-id> --at 2026-09-20T09:00:00Z \
