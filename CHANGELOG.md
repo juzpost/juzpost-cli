@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.5
+
+- `posts schedule` takes `--alt` (one description per file) and `--label` (`sexual`,
+  `nudity`, `porn`, `graphic-media`) to set Bluesky alt text and content warnings on
+  every Bluesky account passed with `--account`.
+
 ## 0.1.4
 
 - `auth login` now auto-opens the browser to the approval page (still prints the

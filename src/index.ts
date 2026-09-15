@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { spawn } from 'node:child_process';
 import { Command } from 'commander';
-import { api, ApiError } from './api.js';
+import { api, apiListAll, ApiError } from './api.js';
 import { saveConfig } from './config.js';
 import { render } from './output.js';
 import * as auth from './auth.js';
@@ -173,11 +173,24 @@ posts
   .description('Schedule one draft (low-level)')
   .requiredOption('--account <id...>', 'social account id(s), 1–10')
   .option('--at <iso>', 'publish time, ISO 8601 UTC; omit = post now')
+  .option('--alt <text...>', 'Bluesky alt text, one per file in post order ("" for none)')
+  .option('--label <label...>', 'Bluesky content warning: sexual | nudity | porn, and/or graphic-media')
   .action(async (postId, opts) => {
-    const res = await api(`/api/cli/v1/posts/${postId}/schedule`, {
-      method: 'POST',
-      body: { publishAt: opts.at, socialAccountIds: opts.account },
-    });
+    const body: Record<string, unknown> = { publishAt: opts.at, socialAccountIds: opts.account };
+    if (opts.alt || opts.label) {
+      // The same alt text and labels go to every Bluesky account passed; the
+      // server refuses Bluesky settings on any other platform's account.
+      const bluesky = await apiListAll<{ id: string }>('/api/cli/v1/accounts', { platform: 'bluesky' });
+      const ids = (opts.account as string[]).filter((id) => bluesky.some((a) => a.id === id));
+      if (ids.length === 0) throw new Error('--alt and --label apply to Bluesky accounts, and no --account is on Bluesky.');
+      // Alt text is one entry per file, so a label on its own sends an empty
+      // description for each of the post's files rather than a wrong count.
+      const altText: string[] =
+        opts.alt ?? (await api<{ mediaUrls: string[] }>(`/api/cli/v1/posts/${postId}`)).mediaUrls.map(() => '');
+      const settings = { altText, labels: opts.label ?? [] };
+      body.blueskySettings = Object.fromEntries(ids.map((id) => [id, settings]));
+    }
+    const res = await api(`/api/cli/v1/posts/${postId}/schedule`, { method: 'POST', body });
     out(res);
   });
 

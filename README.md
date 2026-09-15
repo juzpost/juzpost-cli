@@ -78,13 +78,20 @@ juzpost schedule --group "all-channels" --min-per-day 2 --dry-run
 | `juzpost workspace` | Timezone and default posting times |
 | `juzpost posts list [--status --from --to]` | List posts (drafts, scheduled, posted) |
 | `juzpost posts create [--file --title --hashtags …]` | Upload media and create a draft |
-| `juzpost posts schedule <id> --account <id…> [--at]` | Schedule one post |
+| `juzpost posts schedule <id> --account <id…> [--at --alt --label]` | Schedule one post; `--alt` and `--label` set Bluesky alt text and content warnings |
 | `juzpost schedule --group --min-per-day [--dry-run]` | Smart-schedule drafts across a group |
 
 Every list command supports cursor pagination (`--limit`, `--cursor`, `--all`), sorting (`--sort`, `--order`), and `--json` for scripting.
 
 ```bash
 juzpost posts list --status scheduled --json | jq '.data[].title'
+```
+
+Bluesky alt text is one description per file, in the order the post's files are attached (`""` leaves a file undescribed). Content warnings are `sexual` (Suggestive), `nudity` or `porn` (Adult), plus `graphic-media`, and only apply to posts with images or video. `--label` works without `--alt`; every file then goes out undescribed:
+
+```bash
+juzpost posts schedule <id> --account <bluesky-id> --at 2026-09-20T09:00:00Z \
+  --alt "A calendar in week view" "" --label graphic-media
 ```
 
 ---
