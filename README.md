@@ -154,4 +154,4 @@ Those tools are dashboard-first. `juzpost-cli` is CLI-first and scriptable, buil
 
 ## License
 
-[MIT](./LICENSE) © Jiiva Durai
+[MIT](./LICENSE) © Jeeva D

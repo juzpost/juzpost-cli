@@ -26,14 +26,14 @@
     "juzpost"
   ],
   "license": "MIT",
-  "author": "Jiiva Durai <jackstiffer1@gmail.com>",
+  "author": "Jeeva D <jackstiffer1@gmail.com>",
   "homepage": "https://www.juzpost.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jackstiffer/juzpost-cli.git"
+    "url": "git+https://github.com/juzpost/juzpost-cli.git"
   },
   "bugs": {
-    "url": "https://github.com/jackstiffer/juzpost-cli/issues"
+    "url": "https://github.com/juzpost/juzpost-cli/issues"
   },
   "type": "module",
   "bin": {
