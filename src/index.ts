@@ -13,6 +13,7 @@ import { render } from './output.js';
 import * as auth from './auth.js';
 import { runList, type ListResult } from './list.js';
 import { uploadMedia } from './upload.js';
+import { serveStdio } from './mcp.js';
 
 // Single source of truth for the version — ../package.json (resolves from both dist/ and src/).
 const { version } = JSON.parse(readFileSync(join(dirname(fileURLToPath(import.meta.url)), '../package.json'), 'utf8'));
@@ -221,6 +222,14 @@ program
     if (res.plan) console.log(render(res.plan, false) + '\n');
     console.log(render(res.scheduled ?? [], false));
     if (res.skipped?.length) console.log('\nSkipped:\n' + render(res.skipped, false));
+  });
+
+// ── mcp (stdio server) ───────────────────────────────────────────────────────
+program
+  .command('mcp')
+  .description('Run a stdio MCP server over the stored token (for Claude, Cursor, Codex and other MCP clients)')
+  .action(async () => {
+    await serveStdio(version);
   });
 
 program.parseAsync().catch((e: unknown) => {

@@ -80,6 +80,7 @@ juzpost schedule --group "all-channels" --min-per-day 2 --dry-run
 | `juzpost posts create [--file --title --hashtags …]` | Upload media and create a draft |
 | `juzpost posts schedule <id> --account <id…> [--at --alt --label]` | Schedule one post; `--alt` and `--label` set Bluesky alt text and content warnings |
 | `juzpost schedule --group --min-per-day [--dry-run]` | Smart-schedule drafts across a group |
+| `juzpost mcp` | Run a stdio MCP server for Claude, Cursor, Codex and other agents |
 
 Every list command supports cursor pagination (`--limit`, `--cursor`, `--all`), sorting (`--sort`, `--order`), and `--json` for scripting.
 
@@ -93,6 +94,44 @@ Bluesky alt text is one description per file, in the order the post's files are 
 juzpost posts schedule <id> --account <bluesky-id> --at 2026-09-20T09:00:00Z \
   --alt "A calendar in week view" "" --label graphic-media
 ```
+
+---
+
+## MCP server
+
+`juzpost mcp` runs a [Model Context Protocol](https://modelcontextprotocol.io) server over stdio, using the token from `juzpost auth login`. It is the local, open-source counterpart of the hosted server at `https://www.juzpost.com/mcp` (Streamable HTTP + OAuth 2.1). Source: [`src/mcp.ts`](./src/mcp.ts).
+
+```bash
+juzpost auth login          # once
+npx -y juzpost-cli mcp      # what your MCP client runs
+```
+
+Claude Code:
+
+```bash
+claude mcp add juzpost -- npx -y juzpost-cli mcp
+```
+
+Cursor, Codex, Claude Desktop or any stdio client:
+
+```json
+{ "mcpServers": { "juzpost": { "command": "npx", "args": ["-y", "juzpost-cli", "mcp"] } } }
+```
+
+| Tool | What it does |
+|---|---|
+| `get_account` | Signed-in user, workspace and plan |
+| `get_workspace` | Timezone and default posting times |
+| `list_accounts` | Connected social accounts (filter by platform or group) |
+| `list_groups` | Channel groups |
+| `list_posts` | Drafts, scheduled, posted and failed posts |
+| `get_post` | One post with per-account publish state |
+| `upload_media` | Upload a local image or video, returns a media key |
+| `create_post` | Create a draft, optionally uploading a local file |
+| `schedule_post` | Schedule a draft to accounts at a time, or publish now |
+| `smart_schedule` | Spread drafts across a group at preset times, with `dryRun` |
+
+Prefer the hosted server when your client supports remote MCP with OAuth: `claude mcp add --transport http juzpost https://www.juzpost.com/mcp`.
 
 ---
 

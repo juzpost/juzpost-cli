@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0
+
+- `juzpost mcp` runs a stdio MCP server over the stored CLI token: 10 tools
+  (get_account, get_workspace, list_accounts, list_groups, list_posts, get_post,
+  upload_media, create_post, schedule_post, smart_schedule) for Claude, Cursor,
+  Codex and any other MCP client.
+
 ## 0.1.5
 
 - `posts schedule` takes `--alt` (one description per file) and `--label` (`sexual`,
