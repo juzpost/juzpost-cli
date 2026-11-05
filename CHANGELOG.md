@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1
+
+- `posts schedule` without `--at`, and the MCP `schedule_post` tool without
+  `publishAt`, publish now again: they send `publishNow: true`, which the API
+  requires, instead of failing with "publishAt is required".
+
 ## 0.2.0
 
 - `juzpost mcp` runs a stdio MCP server over the stored CLI token: 10 tools

@@ -177,7 +177,9 @@ posts
   .option('--alt <text...>', 'Bluesky alt text, one per file in post order ("" for none)')
   .option('--label <label...>', 'Bluesky content warning: sexual | nudity | porn, and/or graphic-media')
   .action(async (postId, opts) => {
-    const body: Record<string, unknown> = { publishAt: opts.at, socialAccountIds: opts.account };
+    // The server publishes immediately only when asked: no --at sends publishNow.
+    const when = opts.at ? { publishAt: opts.at } : { publishNow: true };
+    const body: Record<string, unknown> = { ...when, socialAccountIds: opts.account };
     if (opts.alt || opts.label) {
       // The same alt text and labels go to every Bluesky account passed; the
       // server refuses Bluesky settings on any other platform's account.

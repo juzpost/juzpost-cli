@@ -156,7 +156,7 @@ export function createServer(version: string): McpServer {
       json(
         await api(`/api/cli/v1/posts/${encodeURIComponent(postId)}/schedule`, {
           method: 'POST',
-          body: { publishAt, socialAccountIds: accountIds },
+          body: { ...(publishAt ? { publishAt } : { publishNow: true }), socialAccountIds: accountIds },
         }),
       ),
   );

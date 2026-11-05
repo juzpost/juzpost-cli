@@ -59,6 +59,12 @@ test('schedule_post posts accounts and time', async () => {
   assert.deepEqual(calls[0].body, { publishAt: '2026-12-01T09:00:00Z', socialAccountIds: ['a1'] });
 });
 
+test('schedule_post with no publishAt asks the server to publish now', async () => {
+  const client = await connect();
+  await client.callTool({ name: 'schedule_post', arguments: { postId: 'p1', accountIds: ['a1'] } });
+  assert.deepEqual(calls[0].body, { publishNow: true, socialAccountIds: ['a1'] });
+});
+
 test('an API error comes back as a tool error, not a crash', async () => {
   globalThis.fetch = (async () =>
     new Response(JSON.stringify({ error: { code: 'payment_required', message: 'Plan does not include scheduling.' } }), { status: 402 })) as typeof fetch;
