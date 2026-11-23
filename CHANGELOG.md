@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2
+
+- README: links to the AI agent guides, the per-platform pages, the free tools
+  and the comparison pages on juzpost.com. No code change.
+
 ## 0.2.1
 
 - `posts schedule` without `--at`, and the MCP `schedule_post` tool without
