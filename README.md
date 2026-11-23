@@ -187,6 +187,15 @@ Those tools are dashboard-first. `juzpost-cli` is CLI-first and scriptable, buil
 
 ---
 
+## Learn more
+
+- [Use JuzPost from Claude Code](https://www.juzpost.com/agents/claude-code) (hosted MCP server, one command) and [other AI agents](https://www.juzpost.com/agents)
+- Platform rules the CLI checks against: [YouTube](https://www.juzpost.com/platforms/youtube) · [TikTok](https://www.juzpost.com/platforms/tiktok) · [Instagram](https://www.juzpost.com/platforms/instagram) · [X](https://www.juzpost.com/platforms/x) · [Facebook](https://www.juzpost.com/platforms/facebook) · [LinkedIn](https://www.juzpost.com/platforms/linkedin) · [Pinterest](https://www.juzpost.com/platforms/pinterest) · [Threads](https://www.juzpost.com/platforms/threads) · [Bluesky](https://www.juzpost.com/platforms/bluesky) · [Tumblr](https://www.juzpost.com/platforms/tumblr) · [WordPress](https://www.juzpost.com/platforms/wordpress)
+- [Free caption counters and media checkers](https://www.juzpost.com/tools) to test a post before you schedule it
+- Coming from Postiz or Buffer? [JuzPost vs Postiz](https://www.juzpost.com/juzpost-vs-postiz) · [JuzPost vs Buffer](https://www.juzpost.com/juzpost-vs-buffer)
+
+---
+
 ## Status
 
 `v0.1.x` is an early release. The command surface is stable and built against the JuzPost API. See [JuzPost](https://www.juzpost.com) for account setup and API details.
